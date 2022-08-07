@@ -7,7 +7,7 @@
 --- | --- | --- | ---
 | `val <pat> = <expr>` | `spec : <type>` | `val <pat> = <expr>; <expr>` | `as <pat>; <expr>` |
 | `fun <pat> <name> => <expr>` | `spec : <type>` | `fun <pat> <name> => <expr>; <expr>` | `lam <pat> <name> => <expr>` |
-| `proc <pat> <name> {<block>}` | `spec : <type>` | `proc <pat> <name> {<block>}; <expr>` | `do <pat> {<block>}` |
+| `proc <pat> <name> [<block>]` | `spec : <type>` | `proc <pat> <name> [<block>]; <expr>` | `do <pat> [<block>]` |
 | `type <params> <name> = <type>` | `kind <params> <name>` | | |
 | `mod <mod-pat> <mod-name> = <mod-expr>` | | `mod <mod-pat> <mod-name> = <mod-expr>; <expr>` | |
 | `sig <mod-name> = <mod-expr>` | | `sig <mod-name> = <mod-expr>; <expr>` | |
@@ -32,3 +32,21 @@
 | Relational Product (fanout) | `%` | `%%` | `%>` |
 
 (non-fanning relational product is the same as sum because category theory is weird)
+
+# Literals
+| Type | Syntax | 
+--- | --- 
+| `int` | `52` | 
+| `float` | `52.0` | 
+| `string` | `"fifty-two"` | 
+| `char`  | `'f'` | 
+
+### Constructors
+```
+[1, 2, 3]         list
+{5}               quote
+{2; 3; 4}         quotes can contain ; (union) and , (intersection)
+#[1, 2, 3]        array
+%[1 => 2, 3 => 4] maps
+#{hello="world"}  records
+```
