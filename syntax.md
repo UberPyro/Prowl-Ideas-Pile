@@ -23,7 +23,7 @@
 | Alternation | `(.. ; ..)` | `<>` | `>-` |
 | Intersection | `(.. , ..)` | `::` | `:>` |
 | Sum | `$` | `$$` | `$>` |
-| Sum (fanin) | ```|``` | ```||``` | ```|>``` | 
+| Sum (fanin) | `\|` | `\|\|` | `\|>` | 
 | Arrow Product | `@` | `@@` | `@>` |
 | Arrow Product (fanout) | `&` | `&&` | `&>`
 | Relational Product (fanout) | `%` | `%%` | `%>` |
