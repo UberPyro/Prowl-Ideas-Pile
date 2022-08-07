@@ -22,6 +22,7 @@
 | Concatenation | ` `, `~` | `>>` | `->` |
 | Alternation | `(.. ; ..)` | `<>` | `>-` |
 | Intersection | `(.. , ..)` | `::` | `:>` |
+| Iteration (prefix) | `#` | `##` | | 
 | Involution (prefix) | `^` | `^^` | | 
 | Complementary (prefix) | `!` | `!!` | | 
 | Sum | `$` | `$$` | `$>` |
