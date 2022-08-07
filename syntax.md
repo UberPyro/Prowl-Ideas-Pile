@@ -22,6 +22,8 @@
 | Concatenation | ` `, `~` | `>>` | `->` |
 | Alternation | `(.. ; ..)` | `<>` | `>-` |
 | Intersection | `(.. , ..)` | `::` | `:>` |
+| Involution (prefix) | `^` | `^^` | | 
+| Complementary (prefix) | `!` | `!!` | | 
 | Sum | `$` | `$$` | `$>` |
 | Sum (fanin) | `\|` | `\|\|` | `\|>` | 
 | Arrow Product | `@` | `@@` | `@>` |
