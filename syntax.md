@@ -30,4 +30,4 @@
 | Arrow Product (fanout) | `&` | `&&` | `&>`
 | Relational Product (fanout) | `%` | `%%` | `%>` |
 
-(non-fan relational product is the same as sum because category theory is weird)
+(non-fanning relational product is the same as sum because category theory is weird)
