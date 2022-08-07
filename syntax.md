@@ -1,6 +1,6 @@
 # Syntax Quick Guide
 
-Definitions, Specifications, Expression, and Anonymous forms chart
+## Definitions, Specifications, Expression, and Anonymous forms chart
 (technicalities like optional annotations are omitted from the grammars)
 
 | Definition | Specification | Binding Expression | Anonymous |
@@ -13,3 +13,18 @@ Definitions, Specifications, Expression, and Anonymous forms chart
 | `sig <mod-name> = <mod-expr>` | | `sig <mod-name> = <mod-expr>; <expr>` | |
 | `open <mod-expr>` | | `open <mod-expr>; <expr>` | |
 | `mix <mod-expr>` | | | 
+
+# Operators
+
+## Polygon Operators (Relations and Arrows)
+| Operation | Top-level | Quote-level | Lifting |
+--- | --- | --- | ---
+| Concatenation | ` `, `~` | `>>` | `->` |
+| Alternation | `(.. ; ..)` | `<>` | `>-` |
+| Intersection | `(.. , ..)` | `::` | `:>` |
+| Sum | `$` | `$$` | `$>` |
+| Sum (fanin) | `|` | `||` | `|>` | 
+| Arrow Product | `@` | `@@` | `@>` |
+| Arrow Product (fanout) | `&` | `&&` | `&>`
+| Relational Product (fanout) | `%` | `%%` | `%>` |
+(non-fan relational product is the same as sum because category theory is weird)
