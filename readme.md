@@ -20,3 +20,5 @@ fun fac =>
   : as 0; 1
   : as n; n * (n-1) fac
 ```
+
+Check out [learn-fast](./learn-fast) for more. 

@@ -1,4 +1,5 @@
 # Learn Fast
+## Definitions & Expressions
 ```
 /* This is a comment */
 /* Comments are
@@ -65,4 +66,30 @@ fun x y norm-sqr =>
 
 /* The `as x; x * 2` here is a function, just like an identifier. */
 val x = 2 + 3 as x; x * 2  /* x = 8 */
+```
+## Types & Specifications
+Prowl is statically-typed with full type inference. 
+| Ex | Type | 
+-- | --
+| `5` | `int` | 
+| `5.0` | `float` | 
+| `"hi"` | `str` | 
+| `'h'` | `char` | 
+
+```
+spec x : int
+val x = 5
+
+spec x : int
+spec y : float
+val x y = 5 6.0
+
+spec x : int
+fun x => 2
+
+spec s : int -- int  /* `--` represents a stack effect.  */
+fun x s => s + 1
+
+/* Note that if `--` isn't written, it's implied to be leftmost, e.g. 
+   the type `int` is really `-- int` */
 ```
