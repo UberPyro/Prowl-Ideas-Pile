@@ -12,7 +12,7 @@ Main inspirations include:
 
 Much of our look is borrowed from SML and Reason, though we have stack + relational + regex semantics. 
 ```
-fun fac => 1 (as n a; (n>1) ? (n-1) (n*a))* nip
+fun fac => 1 (as n a; (n > 1) (n - 1) (n * a))* nip
 ```
 You can write this in a more functional style if you prefer. 
 ```
