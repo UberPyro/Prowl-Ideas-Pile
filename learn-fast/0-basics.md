@@ -92,4 +92,21 @@ fun x s => s + 1
 
 /* Note that if `--` isn't written, it's implied to be leftmost, e.g. 
    the type `int` is really `-- int` */
+
+spec f : int int
+fun f => 0 0
+
+/* `type` can be used to alias types */
+type int2 = int int
+spec f : intfn
+fun f => (+ 1)
+
+type intfn = int -- int
+spec f : int2
+fun f => 0 0
+
+/* types concatenate just like values do */
+/* some types take in parameters, which can be tucked in left of the = */
+type opt-pair = A -- A opt A opt pair  /* opt takes 1 parameter, pair takes 2 */
+type A opt-pair = A opt A opt pair
 ```
