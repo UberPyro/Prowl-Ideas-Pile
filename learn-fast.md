@@ -35,7 +35,7 @@ fun x y norm-sqr => x^2 y^2 (+)  /* exp is faster than concat */
 val x = 5 succ succ  /* x = 7 */
 val x = 3 4 norm-sqr  /* x = 25 */
 
-/* Most definitions can be lifted to expressions. They must terminate with `;` to be delimited from expressions. */*
+/* Most definitions can be lifted to expressions. They must terminate with `;` to be delimited from expressions. */
 
 fun x y norm-sqr => 
   fun sqr x => x * x  /* shadowing is allowed */
