@@ -13,6 +13,8 @@ Pairs can chain so that the right element represents the "top" and the left elem
 ```
 The value representation is exactly the same, but there are differences at the type level. (Type)stacks are potentially much more general than tuples at the type level, which makes them like really nice tuples. In particular, stacks can manage stack polymorphism in cases where tuples cannot, and stack polymorphism is in line with our intuitions about scoping and the locality of concepts in programming. 
 
+## Costacks
+
 Now, Prowl tries to be an innovative language. Rather than forming a stack out of nested pairs, what if we used nested result types (or either types, if you're familiar with Haskell)? 
 
 ```
@@ -37,7 +39,7 @@ fun f => 4 = 4
 val x = f "true" : "false"  /* x = "true" */
 ```
 
-The expression `(4 = 4)` results in a costack with 2 choices, both of which are empty stacks. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
+The expression `(4 = 4)` results in a costack with 2 choices, both of which are empty stacks if you suppose `0` is empty. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
 
 Now, the key to understanding costacks is *costack polymorphism*. Costacks have a top just like stacks have a top. When you have a function that doesn't explicitly deal with the costack (e.g. no `|` in it's type signature), really it's operating on the top of the costack. So, the `"true"` following the call to `f` pushes the value `"true"` to the *first* stack on the costack, *if* that's the one that exists (similar to a mapping on `Either a` in Haskell). The `:` operator represents a form of sumtype elimination. It checks if a costack is its top: if so, it ignores the following code and lowers the costack (eliminating the second stack), otherwise it eliminates the top stack and then executes `"false"` on the remaining costack. 
 
@@ -50,8 +52,31 @@ fun n fac =>
 
 Why even bother with such a system? The point of costacks is that (co)stack polymorphism behaves exactly the way you would want it to with either types as it does with product types; it has the properties you want for reasoning about code. The main result floats on top but errors can lurk underneath: this makes it easy tuck under and manage errors in a railway-oriented style. Multiple errors can be managed at a time, being pushed down and up and processed in stack order - this allows you to nest error handling in a way consistent with how scoping works, and gives you extra flexibility in refactoring as anything that's polymorphic over the rest of the costack can be dropped in and push and pop from it without needing to reason about what is underneath. Costacks are incredibly typesafe: `main` is expected to be a monochoiced function, so all pushed to the costack need to be manually handled at some point in time - there is no way an error could escape without explicit suppresion, yet the automatic mapping eases the programmer from having to constantly map or unwrap code. Lastly, costacks give us conciseness and *power*, as we can define costack combinators to catch common schemes and think about error handling more abstractly. 
 
+In addition to using `:` for handling (which is considered syntax and not an operator), there is also a more fundamental `|` operator, which is associative but chains error-first which is not ergonomic in many scenarios. `|` takes two functions as arguments, their inputs can expect different typestacks but their outputs must match. `|` checks the top and second element of the costack: if the top matches, it runs the right function on it, and if the other matches, it runs the left function, either way eliminating a level of the costack. `|` is also *costack polymorphic*: *both* the first and second elements of the costack can fail if there's more to the costack, in which case the `|` still lowers the costack but runs nothing. 
+```
+fun n fac => (n = 0) (n * (n-1) fac | 1)
+
+val x = (0 = 1) (0 = 1) ("b" | "a") ("d" | "c")  /* x = "d" */
+```
+
+## Costack Types
+Type Costacks are very similar to type stacks. Recall that in Prowl, every function is a costack of stacks. 
+```
+spec (=) : 0 int int -- 0 | 0  /* removes two integers, then produces 
+                                  2 possibilities of the stack with those 
+                                  integers removed.  */
+spec (int = int) : 0 -- 0 | 0  /* equivalent */
+spec (int = int) : !1 | 0 -- !1 | 0 | 0  /* with explicit costack !1 */
+
+           /*  v-- `|` is the operator for sumtype elimination */
+spec ((0 -- 1) | (2 -- 1)) : 0 | 2 -- 1
+```
+
+
+
 todo: costack examples
 / conditional flow?
+/ patterns? 
 todo: costack types
 todo: costack combinators
 todo: costack polymorphism
