@@ -20,8 +20,8 @@
 | Operation | Top-level | Quote-level | Lifting |
 --- | --- | --- | ---
 | Concatenation | ` `, `~` | `>>` | `->` |
-| Alternation | `(.. ; ..)` | `<>` | `>-` |
-| Intersection | `(.. , ..)` | `::` | `:>` |
+| Alternation | `(.. ; ..)` | `\/` | `/>` |
+| Intersection | `(.. , ..)` | `/\` | `\>` |
 | Iteration (prefix) | `#` | `##` | | 
 | Involution (prefix) | `^` | `^^` | | 
 | Complementary (prefix) | `!` | `!!` | | 

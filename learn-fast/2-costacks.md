@@ -77,21 +77,57 @@ spec ((0 -- 1) | (2 -- 1)) : 0 | 2 -- 1
 ## Costack Combinators
 Note that costack combinators are in a sense *linear*. Elements cannot be arbitrarily created or destroyed because it would break the invariant that costacks have exactly 1 match (e.g. purely a sumtype). 
 ```
-spec puff : 0 -- 0 | 0  /* If top matches, it's propagated to the new top */
-spec shrink : 0 | 0 -- 0  /* If either matches, it's propagated */
+spec pump : 0 -- 0 | 0  /* If top matches, it's propagated to the new top */
+spec press : 0 -- 0 | 0  /* If top matches, it's propagated to second  */
+spec leak : 0 | 0 -- 0  /* If either matches, it's propagated */
 spec flip : 1 | 0 -- 0 | 1  /* swap analogue */
 spec asc : 2 | 1 | 0 -- 1 | 0 | 2  /* dig analogue */
 spec desc : 2 | 1 | 0 -- 0 | 2 | 1  /* bury analogue */
-spec pick : 0 | 1 [0 -- 2] [1 -- 2] -- 2  /* `(|)` */
-spec try : 0 [0 -- 1 | 0] -- 0  /* postfix ? quantifier, becomes id on 1 */
+spec pick : 0 | 1 {0 -- 2} {1 -- 2} -- 2  /* `(|)` */
+spec try : 0 {0 -- 1 | 0} -- 0  /* postfix ? quantifier, becomes id on 1 */
 ```
 There are definitely many more complex, interesting costack combinators out there, but finding them doesn't appear to be trivial as more complex things do not seem to directly translate over. Getting to the bottom of these will be fun. Ultimately what we will achieve is a full combinator scheme that abstracts over the common patterns in control flow. 
 
 ## Quantification
-A number of common control flow ideas is actually well-expressed by regex quantifiers, which Prowl includes. Regex quantifiers are like the costack combinators from before, though now crossed with *recursion schemes*. 
+The idea of quantifiers comes from regex, which Prowl borrows from. The conditional quantifiers overlap with the costack quantifiers from before, but include some more general ideas like *recursion schemes*. All quantifiers shown here only operate on endomorphisms: functions whose inputs and outputs are the same type. 
+
+The first quantifier to cover is *iteration*. Iteration repeats a function for the provided number of times. 
+
+```
+val x = 2 (+ 1)#4  /* x = 6, `#` has higher precedence than concatenation. */
+```
+`(+ 1)` is composed with itself `4` times, then concatenated with `2`. 
+```
+spec dup : X -- X X  /* some reminders */
+spec dig : X Y Z -- Y Z X
+spec nip : X Y -- Y
+
+val x = 0 1 (dup dig (+))#4 nip  /* x = 5 = fib(6) */
+```
+Note that every iteration of `dup dig (+)` computes successive Fibonacci numbers. 
+
+Now let's look at conditional quantifiers. These are PEG-style by default in Prowl; the quantifiers are possessive, meaning that they follow a "longest match" rule as opposed to creating a set of all possible matches. This makes them deterministic and a little easier to reason about. 
+
+```
+/* functions are expected to have a type like the following: */
+type cquantable = 0 -- 1 | 0
+
+/*
+  ? 0-1 times
+  + 1-inf times
+  * 0-inf times
+*/
+
+val x = 2 (as n; (n < 5) (n + 1))*  /* x = 5 */
+val x = 3 ((0 = 0) (+ 1))?  /* x = 4 */
+val x = 3 ((0 = 1) (+ 1))?  /* x = 3 */
+val x = 3 ((0 = 1) (+ 1))+  /* x = 4 */
+val x = 3 ((0 = 1) (+ 1))*  /* x = 3 */
+```
+
+If you wanted to clean up some of those examples, note that `(0 = 0)` is equal to `pump` and `(0 = 1)` is equal to `press` from the combinator list. 
+
+## Patterns
 
 todo: 
-/ conditional flow?
 / patterns? 
-todo: costack combinators
-quantification. 
