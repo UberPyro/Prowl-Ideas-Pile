@@ -60,7 +60,7 @@ val x = (0 = 1) (0 = 1) ("b" | "a") ("d" | "c")  /* x = "d" */
 ```
 
 ## Costack Types
-Type Costacks are very similar to type stacks. Recall that in Prowl, every function is a costack of stacks. 
+Type costacks are very similar to type stacks. Recall that in Prowl, every function is a costack of stacks. 
 ```
 spec (=) : 0 int int -- 0 | 0  /* removes two integers, then produces 
                                   2 possibilities of the stack with those 
