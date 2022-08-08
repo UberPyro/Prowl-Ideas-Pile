@@ -28,6 +28,28 @@ I sometimes use the name "path" instead of "costack" as I think that is a friend
 
 In Prowl, all functions are actually functions of costacks of stacks. This provides a means of error handling that's baked right into the language. Let's see what this looks like: 
 
+```
+/* (=) is being specialized to ints here */
+spec (=) : 0 int int -- 0 | 0
+
+fun f => 4 = 4
+
+val x = f "true" : "false"  /* x = "true" */
+```
+
+The expression `(4 = 4)` results in a costack with 2 choices, both of which are empty stacks. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
+
+Now, the key to understanding costacks is *costack polymorphism*. Costacks have a top just like stacks have a top. When you have a function that doesn't explicitly deal with the costack (e.g. no `|` in it's type signature), really it's operating on the top of the costack. So, the `"true"` following the call to `f` pushes the value `"true"` to the *first* stack on the costack, *if* that's the one that exists (similar to a mapping on `Either a` in Haskell). The `:` operator represents a form of sumtype elimination. It checks if a costack is its top: if so, it ignores the following code and lowers the costack (eliminating the second stack), otherwise it eliminates the top stack and then executes `"false"` on the remaining costack. 
+
+This should provide us enough material to define a factorial function for the first time: 
+```
+fun n fac => 
+  : (n = 0) 1      /* initial / trailing colons are ignored */
+  : n * (n-1) fac
+```
+
+Why even bother with such a system? The point of costacks is that (co)stack polymorphism behaves exactly the way you would want it to with either types as it does with product types; it has the properties you want for reasoning about code. The main result floats on top but errors can lurk underneath: this makes it easy tuck under and manage errors in a railway-oriented style. Multiple errors can be managed at a time, being pushed down and up and processed in stack order - this allows you to nest error handling in a way consistent with how scoping works, and gives you extra flexibility in refactoring as anything that's polymorphic over the rest of the costack can be dropped in and push and pop from it without needing to reason about what is underneath. Costacks are incredibly typesafe: `main` is expected to be a monochoiced function, so all pushed to the costack need to be manually handled at some point in time - there is no way an error could escape without explicit suppresion, yet the automatic mapping eases the programmer from having to constantly map or unwrap code. Lastly, costacks give us conciseness and *power*, as we can define costack combinators to catch common schemes and think about error handling more abstractly. 
+
 todo: costack examples
 / conditional flow?
 todo: costack types
