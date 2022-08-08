@@ -46,7 +46,7 @@ val x = 3 4 norm-sqr  /* x = 25 */
    to be delimited from expressions. */
 
 fun x y norm-sqr => 
-  fun sqr x => x * x  /* shadowing is allowed */
+  fun sqr x => x * x;  /* shadowing is allowed */
   val x-sqr = x sqr; 
   val y-sqr = y sqr; 
   x-sqr + y-sqr
