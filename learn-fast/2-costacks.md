@@ -72,11 +72,26 @@ spec (int = int) : !1 | 0 -- !1 | 0 | 0  /* with explicit costack !1 */
 spec ((0 -- 1) | (2 -- 1)) : 0 | 2 -- 1
 ```
 
+`@` can denote a costack bottom, or an empty costack, e.g. `@ | !2 | !1...`
 
+## Costack Combinators
+Note that costack combinators are in a sense *linear*. Elements cannot be arbitrarily created or destroyed because it would break the invariant that costacks have exactly 1 match (e.g. purely a sumtype). 
+```
+spec puff : 0 -- 0 | 0  /* If top matches, it's propagated to the new top */
+spec shrink : 0 | 0 -- 0  /* If either matches, it's propagated */
+spec flip : 1 | 0 -- 0 | 1  /* swap analogue */
+spec asc : 2 | 1 | 0 -- 1 | 0 | 2  /* dig analogue */
+spec desc : 2 | 1 | 0 -- 0 | 2 | 1  /* bury analogue */
+spec pick : 0 | 1 [0 -- 2] [1 -- 2] -- 2  /* `(|)` */
+spec try : 0 [0 -- 1 | 0] -- 0  /* postfix ? quantifier, becomes id on 1 */
+```
+There are definitely many more complex, interesting costack combinators out there, but finding them doesn't appear to be trivial as more complex things do not seem to directly translate over. Getting to the bottom of these will be fun. Ultimately what we will achieve is a full combinator scheme that abstracts over the common patterns in control flow. 
 
-todo: costack examples
+## Quantification
+A number of common control flow ideas is actually well-expressed by regex quantifiers, which Prowl includes. Regex quantifiers are like the costack combinators from before, though now crossed with *recursion schemes*. 
+
+todo: 
 / conditional flow?
 / patterns? 
-todo: costack types
 todo: costack combinators
-todo: costack polymorphism
+quantification. 
