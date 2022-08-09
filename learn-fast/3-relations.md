@@ -24,7 +24,7 @@ Composition distributes or "foils" terms in cartesian product style. This is sim
 
 ```
 fun a = (1; 2) (+ 2)  /* makes (3; 4) */
-fun b = 1 ((+ 2); (- 2))  /* makes (3; -1) */
-fun c = (1; 2) ((+ 2); (- 2))  /* makes (3; 4; -1; 0) */
+fun b = 1 (+ 2; - 2)  /* makes (3; -1) */
+fun c = (1; 2) (+ 2; - 2)  /* makes (3; 4; -1; 0) */
 ```
 
