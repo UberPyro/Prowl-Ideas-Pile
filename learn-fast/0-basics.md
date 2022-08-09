@@ -1,4 +1,5 @@
 # Learn Fast
+If you're not familiar with the stack paradigm, you can [check](http://kittenlang.org/tutorial/) [out](http://kittenlang.org/intro/) the intro material for Kitten. 
 ## Definitions & Expressions
 ```
 /* This is a comment */
