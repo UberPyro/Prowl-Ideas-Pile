@@ -141,3 +141,12 @@ fun n fac =>
   : as 0; 1    /* pushes to costack, handled by `:`. */
   : as n; n * (n-1) fac  /* complete, does not push. */
 ```
+
+## Trusting
+
+There's one last concept that's important for this section: what if you know that your function is total, but the compiler doesn't, so there's an extra space in the costack that you want to get rid of? Enter the "trust me bro" operations: 
+```
+spec trust : 0 | 1 -- 1
+spec blame : 0 | 1 -- 0
+```
+These types violate the Curry-Howard correspondence for sumtypes: if your input is *either* `0` *or* `1`, the program can't know that it will be just `0` or just `1`! The program can't know, but you can. These operators are *panicking* -- if they fail, the program exits. 
