@@ -1,5 +1,5 @@
 # Prowl Floordrobe
-Ideas pile for Prowl. 
+Ideas pile for Prowl ([tutorial](./learn-fast)).
 
 Prowl is a purely-functional, statically typed, modular, concatenative relational programming language. 
 
@@ -22,3 +22,4 @@ fun fac =>
 ```
 
 Check out [learn-fast](./learn-fast) for more. 
+An [interpreter](https://github.com/UberPyro/prowl) exists for a much older, much less cool version of the language. 
