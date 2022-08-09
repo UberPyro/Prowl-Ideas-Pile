@@ -19,7 +19,7 @@
 ## Polygon Operators (Relations and Arrows)
 | Operation | Top-level | Quote-level | Lifting |
 --- | --- | --- | ---
-| Concatenation | ` `, `~` | `>>` | `->` |
+| Concatenation | ` ` | `>>` | `->` |
 | Alternation | `(.. ; ..)` | `\/` | `/>` |
 | Intersection | `(.. , ..)` | `/\` | `\>` |
 | Iteration (prefix) | `#` | `##` | | 
