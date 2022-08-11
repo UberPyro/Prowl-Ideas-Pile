@@ -3,8 +3,8 @@
 Prowl is a higher-order stack language. This means it has a feature called *quoting* which allows snippets of code to be used as values. Unlike in languages like Factor and Lisp, quotes are *opaque* in Prowl -- this makes them typesafe and have nice properties, similar to first-class functions in functional languages. 
 
 ```
-val q = {(+ 1) 2}  /* quote creation is with {} */
-rel {g} f -- g (-)  /* g is extracted via destructuring */
+val q = [(+ 1) 2]  /* quote creation is with {} */
+rel [g] f -- g (-)  /* g is extracted via destructuring */
 val x = 2 q f      /* x = 1 */
 ```
 
@@ -13,31 +13,31 @@ While named parameters, constructors and destructuring is enough to do anything,
 
 ```
 rel  _          zap  -- id  /* id is the relation that does nothing */
-rel {f}         call -- f
-rel  x          mono -- {x}
-rel {f}         run  -- f {f}
+rel [f]         call -- f
+rel  x          mono -- [x]
+rel [f]         run  -- f [f]
 rel  x          dup  -- x x
-rel {f}         duco -- {{f} f}
+rel [f]         duco -- [[f] f]
 rel  _   y      nip  -- y
-rel {f} {g}     sap  -- g f
-rel  x  {f}     dip  -- f x
-rel {f} {g}     cat  -- {f g}
-rel {f} {g}     swat -- {g f}
+rel [f] [g]     sap  -- g f
+rel  x  [f]     dip  -- f x
+rel [f] [g]     cat  -- [f g]
+rel [f] [g]     swat -- [g f]
 rel  x   y      swap -- y x
-rel  x  {f}     cons -- {x f}
-rel {f}  x      tack -- {f x}
-rel  x  {f}     sip  -- x f x
+rel  x  [f]     cons -- [x f]
+rel [f]  x      tack -- [f x]
+rel  x  [f]     sip  -- x f x
 rel  x   y      peek -- x y x
 rel  x   y   z  dig  -- y z x
 rel  x   y   z  bury -- z x y
 
-rel {f}         i -- f
-rel {f}         m -- {f} f
-rel  _  {f}     k -- f
-rel {f}  _      z -- f
-rel {f}  x      t -- x f
-rel  x  {f}     w -- x x f
-rel  x  {f} {g} s -- {x f} x g
+rel [f]         i -- f
+rel [f]         m -- [f] f
+rel  _  [f]     k -- f
+rel [f]  _      z -- f
+rel [f]  x      t -- x f
+rel  x  [f]     w -- x x f
+rel  x  [f] [g] s -- [x f] x g
 ```
 
 Some of these are very useful and used very often, others may be more obsure and needed less often. The ones at the bottom come from combinatory logic (you may recognize the s, k, i, combinators). 
@@ -65,11 +65,11 @@ Typestacks become important for expressing certain types when the stack on both 
 Here are the types of some of the above combinators: 
 ```
 spec zap  : A --
-spec call : 0 {0 -- 1} -- 1
-spec mono : A -- {. -- A}       /* . is the empty stack */
+spec call : 0 [0 -- 1] -- 1
+spec mono : A -- [. -- A]       /* . is the empty stack */
 spec dup  : A -- A A
 spec nip  : B A -- A
-spec dip  : 0 A {0 -- 1} -- 1 A
-spec cat  : {0 -- 1} {1 -- 2} -- {0 -- 2}
-spec cons : A {0 A -- 1} -- {0 -- 1}
+spec dip  : 0 A [0 -- 1] -- 1 A
+spec cat  : [0 -- 1] [1 -- 2] -- [0 -- 2]
+spec cons : A [0 A -- 1] -- [0 -- 1]
 ```

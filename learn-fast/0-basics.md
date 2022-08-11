@@ -45,7 +45,6 @@ Relations can be defined with `rel`. They are a lot like functions in other lang
 ```
 rel succ -- (+ 1)
 rel x y norm-sqr -- x**2 + y**2
-rel x y norm-sqr -- x**2 y**2 (+)  /* exp is faster than concat */
 
 val x = 5 succ succ  /* x = 7 */
 val x = 3 4 norm-sqr  /* x = 25 */
@@ -64,12 +63,12 @@ rel x y norm-sqr --
 `as` is the anonymous analogue to `val`. `as` pops elements off of the stack instead of matching a built-up virtual stack. 
 ```
 rel x y norm-sqr --
-  x^2 as x-sqr;
-  y^2 as y-sqr;
+  x**2 as x-sqr;
+  y**2 as y-sqr;
   x-sqr + y-sqr
 
 rel x y norm-sqr --
-  x^2 y^2 as x-sqr y-sqr; 
+  x**2 y**2 as x-sqr y-sqr; 
   x-sqr + y-sqr
 
 /* The `as x; x * 2` here is a function, just like an identifier. */

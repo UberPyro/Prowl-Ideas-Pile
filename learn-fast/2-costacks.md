@@ -83,8 +83,8 @@ spec leak : 0 | 0 -- 0  /* If either matches, it's propagated */
 spec flip : 1 | 0 -- 0 | 1  /* swap analogue */
 spec asc : 2 | 1 | 0 -- 1 | 0 | 2  /* dig analogue */
 spec desc : 2 | 1 | 0 -- 0 | 2 | 1  /* bury analogue */
-spec pick : 0 | 1 {0 -- 2} {1 -- 2} -- 2  /* `(|)` */
-spec try : 0 {0 -- 1 | 0} -- 0  /* postfix ? quantifier, becomes id on 1 */
+spec pick : 0 | 1 [0 -- 2] [1 -- 2] -- 2  /* `(|)` */
+spec try : 0 [0 -- 1 | 0] -- 0  /* postfix ? quantifier, becomes id on 1 */
 ```
 There are definitely many more complex, interesting costack combinators out there, but finding them doesn't appear to be trivial as more complex things do not seem to directly translate over. Getting to the bottom of these will be fun. Ultimately what we will achieve is a full combinator scheme that abstracts over the common patterns in control flow. 
 

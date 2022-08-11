@@ -53,9 +53,9 @@ as well as all flipped versions `<~`, `<<~`, `<~<`, ...
 
 ### Constructors
 ```
-[1, 2, 3]         list
-{5}               quote
-{2; 3; 4}         quotes can contain ; (union) and , (intersection)
+{1, 2, 3}         list
+[5]               quote
+[2; 3; 4]         quotes can contain ; (union) and , (intersection)
 #[1, 2, 3]        array
 %[1 => 2, 3 => 4] map
 #{
