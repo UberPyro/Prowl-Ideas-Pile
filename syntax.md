@@ -6,7 +6,7 @@
 | Definition | Specification | Binding Expression | Anonymous |
 --- | --- | --- | ---
 | `val <pat> = <expr>` | `spec : <type>` | `val <pat> = <expr>; <expr>` | `as <pat>; <expr>` |
-| `fun <pat> <name> => <expr>` | `spec : <type>` | `fun <pat> <name> => <expr>; <expr>` | `lam <pat> <name> => <expr>` |
+| `rel <pat> <name> -- <expr>` | `spec : <type>` | `rel <pat> <name> -- <expr>; <expr>` | `by <pat> <name> -- <expr>` |
 | `proc <pat> <name> [<block>]` | `spec : <type>` | `proc <pat> <name> [<block>]; <expr>` | `do <pat> [<block>]` |
 | `type <params> <name> = <type>` | `kind <name> : <kind>` | | |
 | `mod <mod-pat> <mod-name> = <mod-expr>` | | `mod <mod-pat> <mod-name> = <mod-expr>; <expr>` | |
@@ -16,22 +16,32 @@
 
 # Operators
 
-## Polygon Operators (Relations and Arrows)
-| Operation | Top-level | Quote-level | Lifting |
---- | --- | --- | ---
-| Concatenation | ` ` | `>>` | `->` |
-| Alternation | `(.. ; ..)` | `\/` | `/>` |
-| Intersection | `(.. , ..)` | `/\` | `\>` |
-| Iteration (prefix) | `#` | `##` | | 
-| Involution (prefix) | `^` | `^^` | | 
-| Complementary (prefix) | `!` | `!!` | | 
-| Sum | `$` | `$$` | `$>` |
-| Sum (fanin) | `\|` | `\|\|` | `\|>` | 
-| Arrow Product | `@` | `@@` | `@>` |
-| Arrow Product (fanout) | `&` | `&&` | `&>`
-| Relational Product (fanout) | `%` | `%%` | `%>` |
+### Involutions (Prefix)
+- `~` Converse
+- `!` Complementation
 
-(non-fanning relational product is the same as sum because category theory is weird)
+## Polygon Operators
+| Op | Top | Qt | Map | Ap | 
+--- | --- | --- | --- | ---
+| Cat | ` ` | `>>` | `~>` | `<~>` | 
+| Dis | `;` | `\\/` | `+>` | `<+>` | 
+| Con | `,` | `/\\` | `*>` | `<*>` | 
+| RSum | `$` | `$$` | `$>` | `<$>` | 
+| AProd | `@` | `@@` | `@>` | `<@>` | 
+| RFanin | `\|` | `\|\|` | `\|>` | `<\|>` | 
+| RFanout | `%` | `%%` | `%>` | `<%>` | 
+| AFanout | `&` | `&&` | `&>` | `<&>` | 
+| Residual | `\\` | `\\\\` | `\\>` | `<\\>` | 
+| SymDiff | `^` | `^^` | `^>` | `<^>` | 
+
+There are also bind, monad composition, comonad, and comonad composition versions following a similar pattern
+`>>~`, `>~>`, `~>>`, `~>~` etc
+as well as all flipped versions `<~`, `<<~`, `<~<`, ...
+
+### More operators
+- `**` Exp
+- `++` Append
+- `#`, `##` Iteration
 
 # Literals
 | Type | Syntax | 

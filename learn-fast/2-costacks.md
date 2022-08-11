@@ -31,12 +31,12 @@ I sometimes use the name "path" instead of "costack" as I think that is a friend
 In Prowl, all functions are actually functions of costacks of stacks. This provides a means of error handling that's baked right into the language. Let's see what this looks like: 
 
 ```
-/* (=) is being specialized to ints here */
-spec (=) : 0 int int -- 0 | 0
+/* (==) is being specialized to ints here */
+spec (==) : 0 int int -- 0 | 0
 
-fun f => 4 = 4
+rel f -- 4 == 4
 
-val x = f "true" : "false"  /* x = "true" */
+val x = f "true" : "false"  /* x == "true" */
 ```
 
 The expression `(4 = 4)` results in a costack with 2 choices, both of which are empty stacks if you suppose `0` is empty. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
@@ -45,8 +45,8 @@ Now, the key to understanding costacks is *costack polymorphism*. Costacks have 
 
 This should provide us enough material to define a factorial function for the first time: 
 ```
-fun n fac => 
-  : (n = 0) 1      /* initial / trailing colons are ignored */
+rel n fac -- 
+  : (n == 0) 1      /* initial / trailing colons are ignored */
   : n * (n-1) fac
 ```
 
@@ -54,19 +54,19 @@ Why even bother with such a system? The point of costacks is that (co)stack poly
 
 In addition to using `:` for handling (which is considered syntax and not an operator), there is also a more fundamental `|` operator, which is associative but chains error-first which is not ergonomic in many scenarios. `|` takes two functions as arguments, their inputs can expect different typestacks but their outputs must match. `|` checks the top and second element of the costack: if the top matches, it runs the right function on it, and if the other matches, it runs the left function, either way eliminating a level of the costack. `|` is also *costack polymorphic*: *both* the first and second elements of the costack can fail if there's more to the costack, in which case the `|` still lowers the costack but runs nothing. 
 ```
-fun n fac => (n = 0) (n * (n-1) fac | 1)
+rel n fac -- (n == 0) (n * (n-1) fac | 1)
 
-val x = (0 = 1) (0 = 1) ("b" | "a") ("d" | "c")  /* x = "d" */
+val x = (0 == 1) (0 == 1) ("b" | "a") ("d" | "c")  /* x = "d" */
 ```
 
 ## Costack Types
 Type costacks are very similar to type stacks. Recall that in Prowl, every function is a costack of stacks. 
 ```
-spec (=) : 0 int int -- 0 | 0  /* removes two integers, then produces 
+spec (==) : 0 int int -- 0 | 0 /* removes two integers, then produces 
                                   2 possibilities of the stack with those 
                                   integers removed.  */
-spec (int = int) : 0 -- 0 | 0  /* equivalent */
-spec (int = int) : !1 | 0 -- !1 | 0 | 0  /* with explicit costack !1 */
+spec (int == int) : 0 -- 0 | 0 /* equivalent */
+spec (int == int) : !1 | 0 -- !1 | 0 | 0 /* with explicit costack !1 */
 
            /*  v-- `|` is the operator for sumtype elimination */
 spec ((0 -- 1) | (2 -- 1)) : 0 | 2 -- 1
@@ -119,10 +119,10 @@ type cquantable = 0 -- 1 | 0
 */
 
 val x = 2 (as n; (n < 5) (n + 1))*  /* x = 5 */
-val x = 3 ((0 = 0) (+ 1))?  /* x = 4 */
-val x = 3 ((0 = 1) (+ 1))?  /* x = 3 */
-val x = 3 ((0 = 1) (+ 1))+  /* x = 4 */
-val x = 3 ((0 = 1) (+ 1))*  /* x = 3 */
+val x = 3 ((0 == 0) (+ 1))?  /* x = 4 */
+val x = 3 ((0 == 1) (+ 1))?  /* x = 3 */
+val x = 3 ((0 == 1) (+ 1))+  /* x = 4 */
+val x = 3 ((0 == 1) (+ 1))*  /* x = 3 */
 ```
 
 If you wanted to clean up some of those examples, note that `(0 = 0)` is equal to `pump` and `(0 = 1)` is equal to `press` from the combinator list. 
@@ -137,7 +137,7 @@ Binding expressions like `as` expressions can include pattern expressions beyond
 ```
 
 ```
-fun n fac => 
+rel n fac --
   : as 0; 1    /* pushes to costack, handled by `:`. */
   : as n; n * (n-1) fac  /* complete, does not push. */
 ```
@@ -150,3 +150,8 @@ spec trust : 0 | 1 -- 1
 spec blame : 0 | 1 -- 0
 ```
 These types violate the Curry-Howard correspondence for sumtypes: if your input is *either* `0` *or* `1`, the program can't know that it will be just `0` or just `1`! The program can't know, but you can. These operators are *panicking* -- if they fail, the program exits. 
+
+There are two postfix operators that are particularly useful for eliminating costack branches. They are `!` and `!!`. 
+
+- `!` attempts to make the compiler prove that a particular default case is impossible after a sequence of checks, because all possiblities have been checked. We can provide examples for this once data is introduced. 
+- `!!` is the same as `trust`, and the program will panic on the error case. 
