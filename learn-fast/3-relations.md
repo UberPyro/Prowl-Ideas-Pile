@@ -81,7 +81,7 @@ rel part -- (ab | id)
 
 In general, `~(a b c...)` is the same as `... ~c ~b ~a`, which can help reasoning (and helps keep things computationally efficient). 
 
-## Arrows in *Rel*
+## Arrows based on Relations
 Due to connections with arrows and category theory, relations lend themselves to yet another set of sums and products. 
 - Addition:  `$`
 - Fan In: `|`
@@ -104,8 +104,8 @@ Thanks to some strangeness in category theory, the "bundling" function for produ
 ```
 Products fundamentally rely on unions rather than on a product type. This function says, "If I have two functions with the same input type but different output types, I can make a new function with the same input type and produces **both** output type". It can produce *both* output types by summing a set of lefts and rights together (e.g. have multiple items sitting on top and at the second level of the costack). This is important because the multiplicities of the top and second items don't have to match like they do with functions, but the unions save us from having no product at all. 
 
-## Arrows in *Cat*
-Prowl also supports arrows that are more similar to the ones in Haskell, that are based on arrows between categories (functors) rather than relations. These are useful for things that are concatenative and function-like but not relation-like, for example, managing IO and state. 
+## Arrows Based on Functions
+Prowl also supports arrows that are more similar to the ones in Haskell, that are more function-like rather than relation-like. These are useful for things that are concatenative and function-like but not relation-like, for example, managing IO and state. 
 - Product: `@`
 - Fan Out: `&`
 Arrows are able to share their sum operators with the previous set as they work exactly the same. The new set of operators work based off of product types -- our stack. 
