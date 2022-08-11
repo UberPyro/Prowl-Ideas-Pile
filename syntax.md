@@ -24,14 +24,14 @@
 | Op | Top | Qt | Map | Ap | 
 --- | --- | --- | --- | ---
 | Cat | ` ` | `>>` | `~>` | `<~>` | 
-| Dis | `;` | `\\/` | `+>` | `<+>` | 
-| Con | `,` | `/\\` | `*>` | `<*>` | 
+| Dis | `;` | `\/` | `+>` | `<+>` | 
+| Con | `,` | `/\` | `*>` | `<*>` | 
 | RSum | `$` | `$$` | `$>` | `<$>` | 
 | AProd | `@` | `@@` | `@>` | `<@>` | 
 | RFanin | `\|` | `\|\|` | `\|>` | `<\|>` | 
 | RFanout | `%` | `%%` | `%>` | `<%>` | 
 | AFanout | `&` | `&&` | `&>` | `<&>` | 
-| Residual | `\\` | `\\\\` | `\\>` | `<\\>` | 
+| Residual | `\` | `\\` | `\>` | `<\>` | 
 | SymDiff | `^` | `^^` | `^>` | `<^>` | 
 
 There are also bind, monad composition, comonad, and comonad composition versions following a similar pattern

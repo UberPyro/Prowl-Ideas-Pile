@@ -38,7 +38,7 @@ f (g; h) = (f g; f h)
 ```
 
 ### Additional set operators
-- Set Difference: `\\`
+- Set Difference: `\`
 - Symmetric Difference: `^`
 
 ## Nulls
