@@ -113,3 +113,22 @@ Arrows are able to share their sum operators with the previous set as they work 
 /* (@) */ spec pile : [A -- B] [C -- D] -- [A C -- B D]
 /* (&) */ spec hoard : [A -- B] [A -- C] -- [A -- B C]
 ```
+
+## Nondeterministic Quantification
+Now that we understand the relation system, we can examine nondeterministic control flow. 
+
+### Ranges
+`(n..m)` creates a set from `n` to `m`, inclusive. `..` can be sectioned like any other infix operator. 
+
+## Nondeterministic Iteration
+The iteration operator `#` can accept sets of integers. 
+- `f#(1..3)` will produce the set `(f; f f; f f f)`. 
+- `f#(0; 2)` will produce the set `(id; f f)`. 
+
+### Regex-esque Quantification
+Greedy (nondeterministic) regex operators are the same as their deterministic counterparts, but with `..` following. 
+- `f?..` is the same as `f#(0; 1)`. 
+- `f*..` is a set that composes `f` with itself until it produces only `ab` (which are irrelevant). 
+- `f+..` attempts to compose `f` with itself at least once. 
+Note that `?..` and `*..` promote `f` to being total, due to union with `id`, whereas `+..` will leave the domain of `f` unchanged. 
+- `|` corresponds to `( ; )` here. 
