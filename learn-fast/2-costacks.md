@@ -39,7 +39,7 @@ rel f -- 4 == 4
 val x = f "true" : "false"  /* x == "true" */
 ```
 
-The expression `(4 = 4)` results in a costack with 2 choices, both of which are empty stacks if you suppose `0` is empty. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
+The expression `(4 == 4)` results in a costack with 2 choices, both of which are empty stacks if you suppose `0` is empty. The first empty stack represents a result, and the second represents an error. This is acting just like a boolean -- if there were items on the first stack, it would be more like an option, and if there were options on the second stack, more like a result type. 
 
 Now, the key to understanding costacks is *costack polymorphism*. Costacks have a top just like stacks have a top. When you have a function that doesn't explicitly deal with the costack (e.g. no `|` in it's type signature), really it's operating on the top of the costack. So, the `"true"` following the call to `f` pushes the value `"true"` to the *first* stack on the costack, *if* that's the one that exists (similar to a mapping on `Either a` in Haskell). The `:` operator represents a form of sumtype elimination. It checks if a costack is its top: if so, it ignores the following code and lowers the costack (eliminating the second stack), otherwise it eliminates the top stack and then executes `"false"` on the remaining costack. 
 
