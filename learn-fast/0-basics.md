@@ -96,7 +96,7 @@ spec x : int
 rel x -- 2
 
 spec s : int -- int  /* `--` represents a stack relation.  */
-rel x s -- s + 1     /* (known as a stack effect in other stack langauges) */
+rel x s -- x + 1     /* (known as a stack effect in other stack langauges) */
 
 /* Note that if `--` isn't written, it's implied to be leftmost, e.g. 
    the type `int` is really `-- int` */
