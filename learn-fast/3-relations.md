@@ -131,4 +131,4 @@ Greedy (nondeterministic) regex operators are the same as their deterministic co
 - `f*..` is a set that composes `f` with itself until it produces only `ab` (which are irrelevant). 
 - `f+..` is the same as above, but attempts to compose `f` with itself at least once. 
 Note that `?..` and `*..` promote `f` to being total, due to union with `id`, whereas `+..` will leave the domain of `f` unchanged. 
-- `|` corresponds to `( ; )` here. 
+- `|` in regex is just `( ; )` in Prowl. 
