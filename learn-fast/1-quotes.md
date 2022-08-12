@@ -3,9 +3,9 @@
 Prowl is a higher-order stack language. This means it has a feature called *quoting* which allows snippets of code to be used as values. Unlike in languages like Factor and Lisp, quotes are *opaque* in Prowl -- this makes them typesafe and have nice properties, similar to first-class functions in functional languages. 
 
 ```
-val q = [(+ 1) 2]  /* quote creation is with [] */
+val q = [(+ 1) 2]   /* quote creation is with [] */
 rel [g] f -- g (-)  /* g is extracted via destructuring */
-val x = 2 q f      /* x = 1 */
+val x = 2 q f       /* x = 1 */
 ```
 
 ## Combinators
