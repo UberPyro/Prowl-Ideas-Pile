@@ -25,7 +25,7 @@ val x y = 5  /* type error */
 ```
 
 ### Infix
-Prowl has infix operators. Concatenation is faster than nearly all infix. 
+Prowl has infix operators. Concatenation binds tighter than nearly all infix. 
 ```
 val x = 2 + 3  /* x = 5 */
 val x = 1 + 2 * 3  /* x = 7 */
