@@ -2,7 +2,7 @@
 If you're not familiar with the stack paradigm, you can [check](http://kittenlang.org/tutorial/) [out](http://kittenlang.org/intro/) the intro material for Kitten. 
 
 ## Introduction
-Prowl at it's core is a *concatenative*, *relational* language. 
+Prowl at its core is a *concatenative*, *relational* language. 
 - Concatenative Languages are composed of functions of stacks: functions pop arguments off of a stack and then push their results to it. The fact that most functions only care about the top of each stack and are invariant to the rest of them is a powerful property that aids in expressiveness, and concatenative languages permit better pointfree styles than what is offered in applicative languages. In short, concatenative languages permit highly factorable, highly composeable code. 
 - Relational Languages are composed of relations rather than functions. Relations are chosen over functions because they are more encompassing yet have much nicer algebraic properties. For example, relations have a *converse*, like an inverse function, except **all** relations have them. They also have lattice properties like union and intersection, and union forms a Kleene algebra with relation composition. 
 Prowl is a concatenative, relational language, which means **all expressions are relations between stacks**. By combining these paradigms, we can stack their benefits on top of each other and enjoy writing highly expressive code. Maybe the benefits are greater than the sum of its parts, as juxtaposition on a Kleene algebra allows us to write code as regular expressions using an alphabet of relations. 
@@ -88,31 +88,37 @@ Prowl is statically-typed with full type inference.
 spec x : int
 val x = 5
 
+/* Note that if `--` isn't written, it's implied to be leftmost, e.g. 
+   the type `int` is really `-- int` */
+```
+```
 spec x : int
 spec y : float
 val x y = 5 6.0
-
+```
+```
+/* this is the same as `val x = 2`, but written as a relation */
 spec x : int
 rel x -- 2
-
+```
+```
 spec s : int -- int  /* `--` represents a stack relation.  */
 rel x s -- x + 1     /* (known as a stack effect in other stack langauges) */
 
-/* Note that if `--` isn't written, it's implied to be leftmost, e.g. 
-   the type `int` is really `-- int` */
-
+/* `type` can be used to alias types */
+type intfn = int -- int
+spec s' : intfn
+rel s' -- (+ 1)
+```
+```
 spec f : int int
 rel f -- 0 0
 
-/* `type` can be used to alias types */
 type int2 = int int
-spec f : intfn
-rel f -- (+ 1)
-
-type intfn = int -- int
-spec f : int2
-rel f -- 0 0
-
+spec f' : int2
+rel f' -- 0 0
+```
+```
 /* types concatenate just like values do */
 /* some types take in parameters, which can be tucked in left of the = */
 type opt-pair = A -- A opt A opt pair  /* opt takes 1 parameter, pair takes 2 */
