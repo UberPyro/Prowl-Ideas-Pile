@@ -102,7 +102,7 @@ Thanks to some strangeness in category theory, the "bundling" function for produ
 ```
 /* (%) */ spec stock : [0 -- 1] [0 -- 2] -- [0 -- 1 | 2]
 ```
-Products fundamentally rely on unions rather than on a product type. This function says, "If I have two functions with the same input type but different output types, I can make a new function with the same input type and produces **both** output type". It can produce *both* output types by summing a set of lefts and rights together (e.g. have multiple items sitting on top and at the second level of the costack). This is important because the multiplicities of the top and second items don't have to match like they do with functions, but the unions save us from having no product at all. 
+Products fundamentally rely on unions rather than on a product type. This function says, "If I have two functions with the same input type but different output types, I can make a new function with the same input type and produces **both** output types". It can produce *both* output types by summing a set of lefts and rights together (e.g. have multiple items sitting on top and at the second level of the costack). This is important because the multiplicities of the top and second items don't have to match like they do with functions, but the unions save us from having no product at all. 
 
 ## Arrows Based on Functions
 Prowl also supports arrows that are more similar to the ones in Haskell, that are more function-like rather than relation-like. These are useful for things that are concatenative and function-like but not relation-like, for example, managing IO and state. 
