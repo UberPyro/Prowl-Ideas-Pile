@@ -120,7 +120,7 @@ Now that we understand the relation system, we can examine nondeterministic cont
 ### Ranges
 `(n..m)` creates a set from `n` to `m`, inclusive. `..` can be sectioned like any other infix operator. 
 
-## Nondeterministic Iteration
+### Nondeterministic Iteration
 The iteration operator `#` can accept sets of integers. 
 - `f#(1..3)` will produce the set `(f; f f; f f f)`. 
 - `f#(0; 2)` will produce the set `(id; f f)`. 
