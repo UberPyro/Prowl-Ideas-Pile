@@ -32,7 +32,7 @@ val x = 1 + 2 * 3  /* x = 7 */
 val x = 1 2 + 1  /* type error, `1 2` is not an integer. */
 ```
 
-### Sectioniong
+### Sectioning
 Prowl has sectioning, like in Haskell. Sectioned operators are evaluated in RPN fashion. 
 ```
 val x = 2 3 (+)  /* x = 5 */
