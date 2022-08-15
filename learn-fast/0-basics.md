@@ -63,16 +63,16 @@ rel x y norm-sqr --
 `as` is the anonymous analogue to `val`. `as` pops elements off of the stack instead of matching a built-up virtual stack. 
 ```
 rel x y norm-sqr --
-  x**2 as x-sqr;
-  y**2 as y-sqr;
+  x**2 as x-sqr -> 
+  y**2 as y-sqr -> 
   x-sqr + y-sqr
 
 rel x y norm-sqr --
   x**2 y**2 as x-sqr y-sqr; 
   x-sqr + y-sqr
 
-/* The `as x; x * 2` here is a function, just like an identifier. */
-val x = 2 + 3 as x; x * 2  /* x = 8 */
+/* The `as x -> x * 2` here is a function, just like an identifier. */
+val x = 2 + 3 as x -> x * 2  /* x = 8 */
 ```
 
 ## Types & Specifications

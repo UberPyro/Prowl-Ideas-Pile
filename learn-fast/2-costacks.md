@@ -132,14 +132,14 @@ If you wanted to clean up some of those examples, note that `(0 = 0)` is equal t
 Binding expressions like `as` expressions can include pattern expressions beyond just identifiers in order to destructure the input. Sometimes different structures have many alternate forms, in which case *pattern matching* can be implemented to select the correct case. In Prowl, pattern matching is simply built into the costack system. 
 
 ```
-0 as 0; ..  /* matches, so true. */
-0 as 1; ..  /* doesn't match, so false. */
+0 as 0 -> ..  /* matches, so true. */
+0 as 1 -> ..  /* doesn't match, so false. */
 ```
 
 ```
 rel n fac --
-  : as 0; 1    /* pushes to costack, handled by `:`. */
-  : as n; n * (n-1) fac  /* complete, does not push. */
+  : as 0 -> 1    /* pushes to costack, handled by `:`. */
+  : as n -> n * (n-1) fac  /* complete, does not push. */
 ```
 
 ## Trusting
