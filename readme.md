@@ -1,4 +1,4 @@
-# Prowl Floordrobe
+# Prowl Ideas
 Ideas pile for Prowl ([tutorial](./learn-fast)).
 
 Prowl is a purely-functional, statically typed, modular, concatenative relational programming language. 
