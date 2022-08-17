@@ -4,21 +4,23 @@ Ideas pile for Prowl ([tutorial](./learn-fast)).
 Prowl is a purely-functional, statically typed, modular, concatenative relational programming language. 
 
 Main inspirations include: 
-- Kitten
-- Haskell
-- ML Family
-- Joy
+- Stack Languages (Kitten, Factor, Joy)
+- Functional Languages (OCaml, Haskell)
+- Relational Languages (miniKanren)
 - Regex
 
-Much of our look is borrowed from SML and Reason, though we have stack + relational + regex semantics. 
+Our look is highly original, though loosely inspired by  SML, Reason, Factor, and Regex. 
 ```
-rel fac -- 1 (as n a -> (n > 0) (n - 1) (n * a))* nip
+rel n fac -- 
+  (n == 0) 1
+  : n * (n - 1) fac
 ```
-You can write this in a more functional style if you prefer. 
+Alternatively: 
 ```
-rel fac --
-  : as 0 -> 1
-  : as n -> n * (n-1) fac
+rel fac -- (
+  as 0 -> 1; 
+  as n if n > 0 -> n * (n - 1) fac
+)?!
 ```
 
 Check out [learn-fast](./learn-fast) for more. 

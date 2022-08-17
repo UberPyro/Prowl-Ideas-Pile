@@ -5,6 +5,22 @@ Relations behave much nicer than functions in general. Converse relations (inver
 
 Additional properties by themselves do not mean much in terms of expressivity if they aren't useful. However, the ability to write code as regular expressions utilizing the Kleene algebra is the main force driving Prowl. Prowl must be concatenative as to be composed of strings of juxtaposed elements; Prowl must be relational so that operations can be added together, just as in regex. The benefits and tradeoffs of this design run deep and are better suited for a different document, but the promise of Prowl is to produce highly composeable, factorable, and expressive code using semantics that's removed from how a computer works but still guided in ways that help performance. And even if things don't quite work out, the language concept is just too cool to not try. 
 
+## Relation Types
+Up until this point, types have been simplified to always use `--` for stack relations. The truth, however, is that there are 4 different arrows which track information about how many results a relation produces. In the relation literature, a relation is called *partial* if it can produce no result (an empty set) and *total* otherwise. Additionally, a relation is called *functional* if it cannot produce more than one result. The idea of partiality corresponds to `?` in regex, non-functionality corresponds to `+`, and having both corresponds to `*`. In functional programming, partiality corresponds to exhaustivity and refutation. In Mercury, the keywords `det` (deterministic), `semidet`, `multi`, and `nondet` are used for a total function, partial function, total non-function, and partial non-function in that order. Clearly the literature varies wildly with its terminology in this area! In Prowl, I prefer to use the words *function*, *partial function*, *multifunction*, and *relation* respectively. 
+
+The number of outputs corresponding to a single input can be indicated with the type of arrow used. 
+
+- `->` function
+- `~>` partial function
+- `=>` multifunction
+- `--` relation
+
+The correct type for `cat` is the following: 
+```
+spec cat : [0 -- 1] [1 -- 2] -> [0 -- 2]
+```
+`cat` will accept any relation in its arguments, but it itself is guaranteed to be a function. 
+
 ## Basic Operators
 - Composition: ` `
 - Union: `(.. ; ..)`
@@ -26,7 +42,7 @@ Composition distributes or "foils" terms in cartesian product style. This is sim
 rel a -- (1; 2) (+ 2)  /* makes (3; 4) */
 rel b -- 1 (+ 2; - 2)  /* makes (3; -1) */
 rel c -- (1; 2) (+ 2; - 2)  /* makes (3; 4; -1; 0) */
-rel d -- (+ 3) (+ 1; - 1)  /* semantically (+ 4; + 2) */
+rel d -- (+ 3) (+ 1; - 1)   /* semantically (+ 4; + 2) */
 ```
 
 Laws
@@ -59,6 +75,26 @@ f ab = ab f = ab
 (f; un) = (un; f) = un
 ```
 
+## Guards
+`if` guards will provide us with our first way to create partial functions. Guards can lift costack conditions into the relation system. 
+```
+if x == 0 -> .. /* condition is met, so `id` */
+if x > 0 -> ..  /* condition failed, so `ab` */
+```
+
+Guards can also be added to binding expression. 
+```
+0 as x if x == 0 -> ..  /* condition is met, so contents passes */
+0 as x if x > 0 -> ..   /* condition failed, so `ab` */
+```
+
+A less structured way to do the same thing is with the `part` function. It's defined like this: 
+```
+spec part : 1 | 0 -- 0
+rel part -- (ab | id)
+```
+The `part` function simply reads the costack and becomes `id` on a top value and `ab` on the rest. 
+
 ## Involutions
 "Involution" is a math word that refers to operators that do nothing when applied twice, like negation and finding a transpose. The following are unary, prefix operators. 
 - Complementation: `!`
@@ -68,12 +104,7 @@ Complementation finds the set difference between all of the inhabitants in its o
 
 Converse finds the converse relation, which is like an inverse function, except for relations they always exist -- the inputs and outputs are simply switched. Converses of relations are often interesting and surprising, more so than complements. 
 
-Let's introduce a third trusting operation, `part`, to act as a bridge between the language systems: 
-```
-spec part : 1 | 0 -- 0
-rel part -- (ab | id)
-```
-`part` converts a function that pushes to the costack into a partial function in the relation system. 
+Let's use the `part` function from before as a convenient bridge between the costack and relation systems: 
 
 - `~((>= 0) part ^ (< 20) part)` would be the range `(0..19)` as a set. 
 - `~(part dup)` is the same as `(==)`
@@ -132,3 +163,31 @@ Greedy (nondeterministic) regex operators are the same as their deterministic co
 - `f+..` is the same as above, but attempts to compose `f` with itself at least once. 
 Note that `?..` and `*..` promote `f` to being total, due to union with `id`, whereas `+..` will leave the domain of `f` unchanged. 
 - `|` in regex is just `( ; )` in Prowl. 
+
+## Failing Quantifiers
+The failing quantifiers represent a union with `ab` rather than with `id` (which is the same as there being no union at all, as `(x; ab) = x`). These provide an alternative way to lift costack functions into the relation system. 
+- `f?~` produces a partial function, `f` when the result is top and `ab` when the result is the rest. 
+- `f+~` is similar, but composes `f` with itself until a failure is reached. 
+
+## Checking Quantifiers
+Checking quantifiers can make the compiler perform determinism checking on relations. For example, take the following expression: 
+```
+(
+  if n > 0 -> ..
+  if n <= 0 -> ..
+)
+```
+By default, the typechecker will consider this expression to be a relation rather than a function since it contains partial functions (as created by `if`, so exhaustivity is nontrivial) and it contains multiple cases (orthogonality is nontrivial). However, in reality the function is exhaustive (there must be at least 1 output) and functional (there cannot be more than 1 output). To make the compiler reflect that correctly in its type, the `!` quantifier should be used. 
+```
+(
+  if n > 0 -> ..
+  if n <= 0 -> ..
+)!
+```
+If the compiler cannot prove something, but you want to assert it as true, you can use `!!` which will panic when determinism is violated. 
+| Qt. | Check | Panic | 
+-- | --  | --
+| 1 | `!` |  `!!` | 
+| 0-1 | `?!` |  `?!!` | 
+| 1-inf | `+!` | `+!!` | 
+| 0-inf | `*!` |  `*!!` | 

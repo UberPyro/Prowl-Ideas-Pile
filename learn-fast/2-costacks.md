@@ -127,21 +127,6 @@ val x = 3 ((0 == 1) (+ 1))*  /* x = 3 */
 
 If you wanted to clean up some of those examples, note that `(0 = 0)` is equal to `pump` and `(0 = 1)` is equal to `press` from the combinator list. 
 
-## Basic Patterns
-
-Binding expressions like `as` expressions can include pattern expressions beyond just identifiers in order to destructure the input. Sometimes different structures have many alternate forms, in which case *pattern matching* can be implemented to select the correct case. In Prowl, pattern matching is simply built into the costack system. 
-
-```
-0 as 0 -> ..  /* matches, so true. */
-0 as 1 -> ..  /* doesn't match, so false. */
-```
-
-```
-rel n fac --
-  : as 0 -> 1    /* pushes to costack, handled by `:`. */
-  : as n -> n * (n-1) fac  /* complete, does not push. */
-```
-
 ## Trusting
 
 There's one last concept that's important for this section: what if you know that your function is total, but the compiler doesn't, so there's an extra space in the costack that you want to get rid of? Enter the "trust me bro" operations: 
@@ -152,6 +137,3 @@ spec blame : 0 | 1 -- 0
 These types violate the Curry-Howard correspondence for sumtypes: if your input is *either* `0` *or* `1`, the program can't know that it will be just `0` or just `1`! The program can't know, but you can. These operators are *panicking* -- if they fail, the program exits. 
 
 There are two postfix operators that are particularly useful for eliminating costack branches. They are `!` and `!!`. 
-
-- `!` attempts to make the compiler prove that a particular default case is impossible after a sequence of checks, because all possiblities have been checked. We can provide examples for this once data is introduced. 
-- `!!` is the same as `trust`, and the program will panic on the error case. 
