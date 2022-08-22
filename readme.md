@@ -7,7 +7,7 @@ Main inspirations include:
 - Stack Languages (Kitten, Factor, Joy)
 - Functional Languages (OCaml, Haskell)
 - Relational Languages (miniKanren)
-- Regex
+- Kleene Algebras (Vinegar, Oniguruma Regex)
 
 Our look is highly original, though loosely inspired by  SML, Reason, Factor, and Regex. 
 ```
