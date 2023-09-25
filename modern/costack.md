@@ -108,6 +108,18 @@ Binding in a stack language may look something like this:
 Let's represent a colambda with `\~`. Colambdas bind terms on the right. 
 - `R R -> R\~` is `elim`, binding two stacks of the same type to `R` off the costack and then pushing `R` to the costack. 
 - `R -> S R\~` is `gen`. Remember that variables are bound on the right. 
-- `R -> R S\~` is `fab`. 
+- `R -> R S\~` is `fab`.
+Let's define some rotation operators, `surf`ace and `obsc`ure: 
+- `= surf A B C -> B C A\~`
+- `= obsc A B C -> C A B\~`
+A good exercise is implementing the two-way comparison operators in terms of three-way comparison
+```
+= ge cmp elim
+= lt cmp elim exch
+= ne cmp surf elim
+= eq cmp surf elim exch
+= le cmp obsc elim
+= gt cmp obsc elim exch
+```
 ## Logic Programming
 Prowl is nondeterminstic and reversible, which makes it a Curry-esque logic language. The "functions" we have been talking about previously are really binary relations in the context of Prowl. It turns out that in the category of relations, disjoint unions are far more important than cartesian products, as disjoint union functions as both the product and coproduct in this category. `Rel` is a dagger category, meaning that the product and coproduct operator much coincide. In other words, the reverse execution of the `+++`-like dataflow operator is itself, and in a nondeterministic language where there are *sets* of results rather than one result, sets of tagged results can build up product-like data. A set like `{(0, "x"), (1, "y")}` using numbers to represent costack levels ends up looking like a product `("x", "y")`, and the execution of the `+++`-like dataflow operator will perform like a sum or like a product essentially depending on what inputs are provided to it. 
