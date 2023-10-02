@@ -52,7 +52,7 @@ Prowl is a costack-of-stacks concatenative language. This means costacks hold st
 Some fundamental costack combinators are the following: 
 ```
 gen : c+ | r* -- c+ | s* | r*
-fab : c+ | r* -- c+ | r* | s*
+fab : c+ -- c+ | s*
 elim : c+ | r* | r* -- c+ | r*
 exch : c+ | r* | s* -- c+ | s* | r*
 ```
