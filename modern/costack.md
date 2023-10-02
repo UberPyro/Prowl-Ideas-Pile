@@ -7,18 +7,18 @@ As costacks are dual to stacks, let's discuss stacks first to gain some intuitio
 ```
 This is a concise syntax, but what does it really mean? Stacks can be thought of as a chain of pairs: 
 ```
-((((bottom, 2), 4), 6), 8)
+((((empty, 2), 4), 6), 8)
 ```
 Stacks can be built up and built down. Building a stack up means taking the previous stack and pairing it with a value. Building it down means extracting that value and pulling out the rest of the stack. You can think of stacks a lot like linked lists, but since they are linear no pointers are needed. In ADT syntax this is like: 
 ```
 data Stack = 
     Push (Stack, Value)
-  | Bottom
+  | Empty
 ```
 Or as an algebraic specification: 
 ```
-push   : (Stack, Value) -> Stack
-bottom : Stack
+push  : (Stack, Value) -> Stack
+empty : Stack
 ```
 Again, stacks rely on *inductively chaining pairs*. The "inductive" part provides a ladder which is convenient for concatenative programming and the "pairs" part makes this a giant product, which is useful for juggling the inputs and outputs of functions. Stacks are some chain like *This AND this AND this AND nothing else*. 
 
