@@ -51,8 +51,8 @@ Prowl is a costack-of-stacks concatenative language. This means costacks hold st
 
 Some fundamental costack combinators are the following: 
 ```
-gen : c+ | r* -- c+ | s* | r*
-fab : c+ -- c+ | s*
+gen  : c+ | r* -- c+ | s* | r*
+fab  : c+ -- c+ | s*
 elim : c+ | r* | r* -- c+ | r*
 exch : c+ | r* | s* -- c+ | s* | r*
 ```
@@ -64,7 +64,7 @@ Again, the `|`s represent the stacks on top of the costacks. Costacks are manipu
 ## Polymorphism
 Stacks are fundamentally useful as an abstraction because they possess a kind of *invariance*, something that does not change. For starters, consider these stack functions: 
 ```
-(+) : r* int int -- r* int
+(+)  : r* int int -- r* int
 succ : r* int -- r* int
 ```
 This notation should be similar to the stack effect notation of Forth and Factor, but an important different is that *stack variables* are made explicit. Stack variables can be elided in first-order stack languages like Forth, but become much more important for the reasoning of higher-order stack languages (having quotes like Factor and Joy). 
@@ -84,7 +84,7 @@ cmp : c+ | r* int int -- c+ | r* | r* | r*
 
 We can also add the costack variables onto our stack functions from before: 
 ```
-(+) : c+ | r* int int -- c+ | r* int
+(+)  : c+ | r* int int -- c+ | r* int
 succ : c+ | r* int -- c+ | r* int
 ```
 The costack polymorphic cases of purely stack functions ends up being instrumental. These functions have their effect skipped on fake costacks, which means the costacks generated from comparisons can directly control the effects of these functions. 
