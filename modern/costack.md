@@ -41,7 +41,7 @@ fake : Costack -> Costack
 ```
 A costack is a chain saying *This OR this OR this* is true. Exactly one thing. The interpretation in terms of error handling is that there is one success state and any number of failure stats underneath. But you can interpret this as some number of cases in any context. 
 
-Where a stack keeps a collection of values in some order, a costack only ever has a *single value*. Exactly like result types, costacks *as a type* syntactically holds *both* types a term can hold, but *as a term* is only one of those types, with a tag. In fact, you can mathematically simplify the costack definition down to just an integer datting some term: 
+Where a stack keeps a collection of values in some order, a costack only ever has a *single value*. Exactly like result types, costacks *as a type* syntactically holds *both* types a term can hold, but *as a term* is only one of those types, with a tag. In fact, you can mathematically simplify the costack definition down to just an integer tagging some term: 
 ```
 data Costack = (Int, Elem)
 ```
